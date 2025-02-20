@@ -43,4 +43,16 @@ public class Ex01 {
         List<Board> items = boardMapper.getList();
         items.forEach(System.out::println);
     }
+
+    @Test
+    void test3() {
+        Board item = boardMapper.get(1L);
+        System.out.println(item);
+    }
+
+    @Test
+    void test4() {
+        List<Board> items = boardMapper.getList2("%제목%", "%내용%");
+        System.out.println(items);
+    }
 }

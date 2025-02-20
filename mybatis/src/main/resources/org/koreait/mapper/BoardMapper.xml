@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.koreait.mapper.BoardMapper">
+    <select id="getList3" resultType="org.koreait.board.entities.Board">
+        SELECT * FROM BOARD_DATA
+    </select>
+
+    <insert id="register">
+        <selectKey keyProperty="seq" order="BEFORE" resultType="long">
+            SELECT BOARD_dATA_SEQ.nextval FROM DUAL
+        </selectKey>
+        INSERT INTO BOARD_DATA (SEQ, GID, POSTER, SUBJECT, CONTENT, CREATED_AT, NOTICE, COMMENT_COUNT<!--, RECOMMEND_COUNT-->, VIEW_COUNT)
+        VALUES (#{seq}, 'testgid', #{poster}, #{subject}, #{content}, SYSDATE, 0, 0, 0, <!--0-->)
+    </insert>
+</mapper>
