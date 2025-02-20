@@ -35,8 +35,11 @@ public class Ex02 {
     @Test
     void test2(){
         Board board = new Board();
-        board.setSubject("%제목%");
-        List<Board> items = boardMapper.getList3(board);
+//        board.setSubject("%제목%");
+//        board.setSubject("%제목%");
+        board.setContent("%내용%");
+        board.setSeq(1L);
+        List<Board> items = boardMapper.getList4(board);
         System.out.println(items);
     }
 
@@ -49,5 +52,12 @@ public class Ex02 {
 
         int affectedRows = boardMapper.register(board);
         System.out.println(affectedRows);
+        System.out.println("board" + board);
+    }
+
+    @Test
+    void test4() {
+//        long total = boardMapper.total();
+//        System.out.println(total);
     }
 }

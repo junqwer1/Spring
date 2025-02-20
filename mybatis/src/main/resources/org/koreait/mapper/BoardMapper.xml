@@ -3,13 +3,57 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="org.koreait.mapper.BoardMapper">
-    <select id="getList3" resultType="org.koreait.board.entities.Board">
+    <resultMap id="boardMap" type="org.koreait.board.entities.Board">
+        <result column="SEQ" property="seq" />
+        <result column="POSTER" property="poster"/>
+        <result column="SUBJECT" property="subject"/>
+        <result column="CONTENT" property="content"/>
+        <result column="CREATED_AT" property="createdAT"/>
+    </resultMap>
+
+    <select id="getList3" resultMap="boardMap">
+        <bind name="pattern" value=" '%' + _parameter.getSubject() + '%'" />
+        SELECT * FROM BOARD_DATA WHERE SUBJECT LIKE #{pattern}
+    </select>
+
+    <!--<select id="getList4" resultMap="boardMap">
         SELECT * FROM BOARD_DATA
+        <trim prefix="WHERE" prefixOverrides="AND | OR">
+            <if test="subject != null">
+                AND SUBJECT LIKE #{subject}
+            </if>
+            <if test="content != null">
+                AND CONTENT LIKE #{content}
+            </if>
+        </trim>
+    </select>-->
+
+    <select id="getList4" resultMap="boardMap">
+        SELECT * FROM BOARD_DATA
+        <where>
+            <if test="seq > 0L">
+                <![CDATA[AND seq > 0]]>
+            </if>
+            <if test="subject != null">
+                AND SUBJECT LIKE #{subject}
+            </if>
+            <if test="content != null">
+                AND CONTENT LIKE #{content}
+            </if>
+        </where>
+    </select>
+
+    <select id="total" resultType="long">
+        SELECT COUNT(*) FROM BOARD_DATA
+    </select>
+
+    <select id="getSubjects" resultType="java.lang.String">
+        SELECT SUBJECT FROM BOARD_DATA
     </select>
 
     <insert id="register">
         <selectKey keyProperty="seq" order="BEFORE" resultType="long">
-            SELECT BOARD_dATA_SEQ.nextval FROM DUAL
+            SELECT BOARD_DATA_SEQ.nextval FROM DUAL
         </selectKey>
         INSERT INTO BOARD_DATA (SEQ, GID, POSTER, SUBJECT, CONTENT, CREATED_AT, NOTICE, COMMENT_COUNT<!--, RECOMMEND_COUNT-->, VIEW_COUNT)
         VALUES (#{seq}, 'testgid', #{poster}, #{subject}, #{content}, SYSDATE, 0, 0, 0, <!--0-->)

@@ -19,6 +19,10 @@ public interface BoardMapper {
 
     List<Board> getList3(Board board);
 
+    List<Board> getList4(Board board);
+
     int register(Board board);
+
+
 
 }
